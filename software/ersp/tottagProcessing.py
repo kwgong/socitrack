@@ -229,6 +229,31 @@ def demo_sliding_window(windows: list[TotTagData]) -> None:
     plt.show()
 
 
+def graph_labeling(windows, window_labels):
+
+    bin = {} 
+    for i in range(len(windows)):
+        if window_labels[i] not in bin: 
+            bin[window_labels[i]] = windows[i]
+        else:
+            bin[window_labels[i]].extend(windows[i])
+
+    plt.title('TotTag sliding window demo')
+    plt.xlabel('Timestamp')
+    plt.ylabel('Distance in mm')
+
+    for data_label, data in bin.items():
+        x_1, y_1 = zip(*data)
+        plt.scatter(x_1, y_1, label=data_label)
+
+
+    for i in range(windows[0][0][0], windows[-1][-1][0], 30):
+        plt.axvline(x=i)
+
+    plt.legend()
+    plt.show()
+
+
 if __name__ == "__main__":
     ### Test the code here! :)
 
@@ -262,4 +287,9 @@ if __name__ == "__main__":
     train_forest(stripped_windows, labels)
 
     # Plot the windows, allowing user to compare labels with those printed by debug step 
-    demo_sliding_window(windows)
+    # demo_sliding_window(windows)
+
+    graph_labeling(windows, labels)
+
+
+
